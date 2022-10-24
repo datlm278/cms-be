@@ -38,6 +38,6 @@ public class CinemaType {
     @Column(name = "UPDATE_TIME")
     private Timestamp updateTime;
 
-    @OneToMany(mappedBy = "cinemaTypeId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinemaType", cascade = CascadeType.ALL)
     private List<Cinema> cinemas;
 }

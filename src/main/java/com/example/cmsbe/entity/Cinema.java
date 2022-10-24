@@ -24,6 +24,9 @@ public class Cinema {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "NAME")
+    private String name;
+
     @Column(name = "RELEASE_DATE")
     private Date releaseDate;
 
@@ -39,7 +42,7 @@ public class Cinema {
     @Column(name = "STATUS")
     private Long status;
 
-    @Column(name = "CREATE_TIME")
+    @Column(name = "CREATE_TIME", updatable = false)
     private Timestamp createTime;
 
     @Column(name = "UPDATE_TIME")
@@ -47,9 +50,9 @@ public class Cinema {
 
     @ManyToOne
     @JoinColumn(name = "CINEMA_TYPE_ID", referencedColumnName = "id")
-    private CinemaType cinemaTypeId;
+    private CinemaType cinemaType;
 
     @ManyToOne
     @JoinColumn(name = "PRODUCER_ID", referencedColumnName = "id")
-    private Producer producerId;
+    private Producer producer;
 }

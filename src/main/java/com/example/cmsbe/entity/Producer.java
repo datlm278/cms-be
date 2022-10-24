@@ -40,6 +40,6 @@ public class Producer {
     @Column(name = "UPDATE_TIME")
     private Timestamp updateTime;
 
-    @OneToMany(mappedBy = "producerId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL)
     private List<Cinema> cinemas;
 }
