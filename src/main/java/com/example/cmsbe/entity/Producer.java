@@ -18,7 +18,7 @@ import java.util.List;
 @Table(name = "cms_producer")
 public class Producer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
@@ -34,7 +34,7 @@ public class Producer {
     @Column(name = "STATUS")
     private Long status;
 
-    @Column(name = "CREATE_TIME")
+    @Column(name = "CREATE_TIME", updatable = false)
     private Timestamp createTime;
 
     @Column(name = "UPDATE_TIME")

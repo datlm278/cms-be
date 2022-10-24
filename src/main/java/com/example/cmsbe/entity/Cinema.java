@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class Cinema {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
 
