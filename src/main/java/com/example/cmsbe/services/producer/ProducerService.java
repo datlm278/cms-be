@@ -44,6 +44,9 @@ public class ProducerService implements IProducerService{
             throw new RuntimeException("producer request id not equal id request");
         }
         Producer producer = modelMapper.map(producerRequest, Producer.class);
+        if (producer.getStatus().equals(CMSConstant.DELETE_STATUS)) {
+            throw new NotFoundException("producer was deleted");
+        }
         producer.setUpdateTime(Timestamp.from(Instant.now()));
         return modelMapper.map(producerRepository.save(producer), ProducerResponse.class);
     }
