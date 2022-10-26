@@ -9,6 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.List;
+
 @RestController
 @RequestMapping(value = CMSConstant.PREFIX_API_URL + "/showtime")
 public class ShowtimeController {
@@ -30,5 +34,20 @@ public class ShowtimeController {
     public ResponseEntity<String> deleteShowtime(@RequestParam Long id) {
         showtimeService.deleteShowtime(id);
         return ResponseEntity.ok().body("Deleted showtime has id= " + id + " successfully!");
+    }
+
+    @GetMapping(value = "/find-all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ShowtimeResponse>> findAllShowtime() {
+        return ResponseEntity.ok().body(showtimeService.findAllShowtime());
+    }
+
+    @GetMapping(value = "/find-by-id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ShowtimeResponse> findShowtimeById(@RequestParam Long id) {
+        return ResponseEntity.ok().body(showtimeService.findShowtimeById(id));
+    }
+
+    @GetMapping(value = "/find-by-datetime", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ShowtimeResponse> findShowtimeByDatetime(@RequestParam String date, @RequestParam String time) {
+        return ResponseEntity.ok().body(showtimeService.findShowtimeByDatetime(date, time));
     }
 }

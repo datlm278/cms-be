@@ -3,8 +3,6 @@ package com.example.cmsbe.services.showtime;
 import com.example.cmsbe.dto.request.ShowtimeRequest;
 import com.example.cmsbe.dto.response.ShowtimeResponse;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
 
 public interface IShowtimeService {
@@ -16,11 +14,11 @@ public interface IShowtimeService {
 
     ShowtimeResponse findShowtimeById(Long id);
 
-    ShowtimeResponse findShowtimeByDatetime(Date date, Time time);
+    ShowtimeResponse findShowtimeByDatetime(String date, String time);
 
-    List<ShowtimeResponse> findShowtimeByDate(Date date);
+    List<ShowtimeResponse> findShowtimeByDate(String date);
 
-    List<ShowtimeResponse> findShowtimeByTime(Time time);
+    List<ShowtimeResponse> findShowtimeByTime(String time);
 
     List<ShowtimeResponse> findAllShowtime();
 }
