@@ -50,4 +50,14 @@ public class ShowtimeController {
     public ResponseEntity<ShowtimeResponse> findShowtimeByDatetime(@RequestParam String date, @RequestParam String time) {
         return ResponseEntity.ok().body(showtimeService.findShowtimeByDatetime(date, time));
     }
+
+    @GetMapping(value = "/find-by-date", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ShowtimeResponse>> findShowtimeByDate(@RequestParam String date) {
+        return ResponseEntity.ok().body(showtimeService.findShowtimeByDate(date));
+    }
+
+    @GetMapping(value = "/find-by-time", produces = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<List<ShowtimeResponse>> findShowtimeByTime(@RequestParam String time) {
+        return ResponseEntity.ok().body(showtimeService.findShowtimeByTime(time));
+    }
 }

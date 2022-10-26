@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowtimeService implements IShowtimeService {
@@ -93,12 +94,13 @@ public class ShowtimeService implements IShowtimeService {
     @Override
     public List<ShowtimeResponse> findShowtimeByDate(String date) {
         List<Showtime> showtimes = showtimeRepository.findShowtimeByDate(date);
-        return null;
+        return showtimes.stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).toList();
     }
 
     @Override
     public List<ShowtimeResponse> findShowtimeByTime(String time) {
-        return null;
+        List<Showtime> showtimes = showtimeRepository.findShowtimeByTime(time);
+        return showtimes.stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).collect(Collectors.toList());
     }
 
     @Override
