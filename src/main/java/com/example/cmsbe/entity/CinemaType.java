@@ -10,13 +10,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Data
 @Table(name = "cms_cinema_type")
-public class CinemaType {
+public class CinemaType implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 8081573080109375485L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

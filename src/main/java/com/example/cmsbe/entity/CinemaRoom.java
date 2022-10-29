@@ -5,15 +5,13 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Data
 @Entity
-@Table(name = "cms_showtime")
-public class Showtime implements Serializable {
+@Data
+@Table(name = "cms_cinema_room")
+public class CinemaRoom implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 8081573080109375485L;
@@ -23,11 +21,14 @@ public class Showtime implements Serializable {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "DAY")
-    private Date day;
+    @Column(name = "ROOM_CODE")
+    private String roomCode;
 
-    @Column(name = "HOUR")
-    private Time hour;
+    @Column(name = "TOTAL_SEATS")
+    private Long totalSeats;
+
+    @Column(name = "SCREEN_TYPE")
+    private String screenType;
 
     @Column(name = "STATUS")
     private Long status;
@@ -38,9 +39,6 @@ public class Showtime implements Serializable {
     @Column(name = "UPDATE_TIME")
     private Timestamp updateTime;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "cms_cinema_showtime",
-            joinColumns = {@JoinColumn(name = "showtime_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cinema_id")})
-    private List<Cinema> cinemas;
+    @OneToMany(mappedBy = "cinemaRoom", cascade = CascadeType.ALL)
+    private List<SeatRoom> seatRooms;
 }

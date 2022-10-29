@@ -10,13 +10,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "cms_producer")
-public class Producer {
+public class Producer implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 8081573080109375485L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

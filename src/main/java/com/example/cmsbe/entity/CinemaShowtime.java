@@ -3,11 +3,16 @@ package com.example.cmsbe.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "CMS_CINEMA_SHOWTIME")
-public class CinemaShowtime {
+public class CinemaShowtime implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 8081573080109375485L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

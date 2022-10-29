@@ -18,4 +18,6 @@ public class CMSConstant {
     //Constant for status in CMS database
     public static final Long NORMAL_STATUS = 1L;
     public static final Long DELETE_STATUS = -1L;
+
+    public static final int SEATS_OF_ROW = 20;
 }
