@@ -9,10 +9,9 @@ public class CinemaRequest {
     private Long id;
     private String name;
     private Date releaseDate;
-    private Date endingDate;
     private String director;
-    private Long status;
     private String poster;
+    private Long status;
     private Long cinemaTypeId;
     private Long producerId;
 }

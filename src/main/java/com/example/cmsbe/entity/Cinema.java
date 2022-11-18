@@ -28,11 +28,11 @@ public class Cinema implements Serializable {
     @Column(name = "RELEASE_DATE")
     private Date releaseDate;
 
-    @Column(name = "ENDING_DATE")
-    private Date endingDate;
-
     @Column(name = "POSTER")
-    private String poster;
+    private byte[] poster;
+
+    @Column(name = "POSTER_NAME")
+    private String posterName;
 
     @Column(name = "DIRECTOR")
     private String director;

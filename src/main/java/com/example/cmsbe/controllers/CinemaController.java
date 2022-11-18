@@ -9,7 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,6 +20,11 @@ public class CinemaController {
 
     @Autowired
     private CinemaService cinemaService;
+
+    @PostMapping("/create-cinema")
+    public ResponseEntity<CinemaResponse> create (@RequestParam("poster") MultipartFile file, @RequestParam("cinema") String cinema) throws IOException {
+        return ResponseEntity.ok().body(cinemaService.insertCinema(file, cinema));
+    }
 
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CinemaResponse> createCinema(@RequestBody CinemaRequest cinemaRequest) {

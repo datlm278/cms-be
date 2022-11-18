@@ -6,14 +6,19 @@ import com.example.cmsbe.dto.response.CinemaResponse;
 import com.example.cmsbe.entity.Cinema;
 import com.example.cmsbe.entity.CinemaType;
 import com.example.cmsbe.entity.Producer;
+import com.example.cmsbe.mapper.CinemaMapper;
 import com.example.cmsbe.repositories.CinemaRepository;
 import com.example.cmsbe.repositories.CinemaTypeRepository;
 import com.example.cmsbe.repositories.ProducerRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -40,6 +45,7 @@ public class CinemaService implements ICinemaService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @Override
     public CinemaResponse createCinema(CinemaRequest cinemaRequest) {
 
@@ -55,7 +61,7 @@ public class CinemaService implements ICinemaService {
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
         cinema = cinemaRepository.save(cinema);
-        return cinemaBuilder(cinema);
+        return CinemaMapper.toDto(cinema);
     }
 
     @Override
@@ -78,7 +84,18 @@ public class CinemaService implements ICinemaService {
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
         cinema = cinemaRepository.save(cinema);
-        return cinemaBuilder(cinema);
+        return CinemaMapper.toDto(cinema);
+    }
+
+    @Override
+    public CinemaResponse insertCinema(MultipartFile file, String request) throws IOException {
+        CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
+        Cinema cinema = modelMapper.map(cinemaRequest, Cinema.class);
+        cinema.setPoster(file.getBytes());
+        cinema.setPosterName(file.getOriginalFilename());
+        cinema.setCreateTime(Timestamp.from(Instant.now()));
+        cinema = cinemaRepository.save(cinema);
+        return CinemaMapper.toDto(cinema);
     }
 
     @Override
@@ -98,7 +115,7 @@ public class CinemaService implements ICinemaService {
         List<Cinema> cinemas = cinemaRepository.findAll();
         for (Cinema cinema : cinemas) {
             if (!cinema.getStatus().equals(CMSConstant.DELETE_STATUS)) {
-                cinemaResponses.add(cinemaBuilder(cinema));
+                cinemaResponses.add(CinemaMapper.toDto(cinema));
             }
         }
         return cinemaResponses;
@@ -110,22 +127,6 @@ public class CinemaService implements ICinemaService {
         if (cinema.getStatus().equals(CMSConstant.DELETE_STATUS)) {
             throw new NotFoundException("cinema was deleted");
         }
-        return cinemaBuilder(cinema);
-    }
-
-    private CinemaResponse cinemaBuilder(Cinema cinema) {
-        CinemaResponse cinemaResponse = new CinemaResponse();
-        cinemaResponse.setId(cinema.getId());
-        cinemaResponse.setName(cinema.getName());
-        cinemaResponse.setReleaseDate(cinema.getReleaseDate());
-        cinemaResponse.setEndingDate(cinema.getEndingDate());
-        cinemaResponse.setDirector(cinema.getDirector());
-        cinemaResponse.setPoster(cinema.getPoster());
-        cinemaResponse.setStatus(cinema.getStatus());
-        cinemaResponse.setCinemaType(cinema.getCinemaType().getName());
-        cinemaResponse.setProducerName(cinema.getProducer().getName());
-        cinemaResponse.setCreateTime(cinema.getCreateTime());
-        cinemaResponse.setUpdateTime(cinema.getUpdateTime());
-        return cinemaResponse;
+        return CinemaMapper.toDto(cinema);
     }
 }
