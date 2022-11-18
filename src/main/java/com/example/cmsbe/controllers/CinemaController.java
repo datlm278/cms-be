@@ -21,19 +21,14 @@ public class CinemaController {
     @Autowired
     private CinemaService cinemaService;
 
-    @PostMapping("/create-cinema")
+    @PostMapping("/create")
     public ResponseEntity<CinemaResponse> create (@RequestParam("poster") MultipartFile file, @RequestParam("cinema") String cinema) throws IOException {
         return ResponseEntity.ok().body(cinemaService.insertCinema(file, cinema));
     }
 
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CinemaResponse> createCinema(@RequestBody CinemaRequest cinemaRequest) {
-        return ResponseEntity.ok().body(cinemaService.createCinema(cinemaRequest));
-    }
-
     @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CinemaResponse> updateCinema(@RequestBody CinemaRequest cinemaRequest, @RequestParam Long id) {
-        return ResponseEntity.ok().body(cinemaService.updateCinema(cinemaRequest, id));
+    public ResponseEntity<CinemaResponse> updateCinema(@RequestParam("poster") MultipartFile file, @RequestParam("cinema") String cinemaRequest, @RequestParam Long id) throws IOException {
+        return ResponseEntity.ok().body(cinemaService.updateCinema(file, cinemaRequest, id));
     }
 
     @PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)

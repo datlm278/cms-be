@@ -1,6 +1,7 @@
 package com.example.cmsbe.services.cinema;
 
 import com.example.cmsbe.common.constant.CMSConstant;
+import com.example.cmsbe.common.utils.UploadFileUtils;
 import com.example.cmsbe.dto.request.CinemaRequest;
 import com.example.cmsbe.dto.response.CinemaResponse;
 import com.example.cmsbe.entity.Cinema;
@@ -12,12 +13,16 @@ import com.example.cmsbe.repositories.CinemaTypeRepository;
 import com.example.cmsbe.repositories.ProducerRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
+import javax.servlet.ServletContext;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -45,6 +50,9 @@ public class CinemaService implements ICinemaService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    ServletContext context;
+
 
     @Override
     public CinemaResponse createCinema(CinemaRequest cinemaRequest) {
@@ -65,8 +73,10 @@ public class CinemaService implements ICinemaService {
     }
 
     @Override
-    public CinemaResponse updateCinema(CinemaRequest cinemaRequest, Long id) {
+    public CinemaResponse updateCinema(MultipartFile file, String request, Long id) throws IOException {
         cinemaRepository.findById(id).orElseThrow(() -> new NotFoundException("cinema isn't existed"));
+
+        CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
 
         CinemaType type = cinemaTypeRepository
                 .findById(cinemaRequest.getCinemaTypeId())
@@ -83,6 +93,8 @@ public class CinemaService implements ICinemaService {
         cinema.setUpdateTime(Timestamp.from(Instant.now()));
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
+        String fileName = UploadFileUtils.upload(context, file);
+        cinema.setPosterName(fileName);
         cinema = cinemaRepository.save(cinema);
         return CinemaMapper.toDto(cinema);
     }
@@ -91,9 +103,9 @@ public class CinemaService implements ICinemaService {
     public CinemaResponse insertCinema(MultipartFile file, String request) throws IOException {
         CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
         Cinema cinema = modelMapper.map(cinemaRequest, Cinema.class);
-        cinema.setPoster(file.getBytes());
-        cinema.setPosterName(file.getOriginalFilename());
         cinema.setCreateTime(Timestamp.from(Instant.now()));
+        String fileName = UploadFileUtils.upload(context, file);
+        cinema.setPosterName(fileName);
         cinema = cinemaRepository.save(cinema);
         return CinemaMapper.toDto(cinema);
     }

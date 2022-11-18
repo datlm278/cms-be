@@ -14,7 +14,9 @@ public class CinemaResponse {
     private String director;
     private Long status;
     private String posterName;
+    private Long cinemaTypeId;
     private String cinemaType;
+    private Long producerId;
     private String producerName;
     private Timestamp createTime;
     private Timestamp updateTime;

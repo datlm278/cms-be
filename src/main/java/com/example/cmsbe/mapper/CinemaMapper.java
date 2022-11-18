@@ -14,7 +14,9 @@ public class CinemaMapper {
         cinemaResponse.setDirector(cinema.getDirector());
         cinemaResponse.setPosterName(cinema.getPosterName());
         cinemaResponse.setStatus(cinema.getStatus());
+        cinemaResponse.setCinemaTypeId(cinema.getCinemaType().getId());
         cinemaResponse.setCinemaType(cinema.getCinemaType().getName());
+        cinemaResponse.setProducerId(cinema.getProducer().getId());
         cinemaResponse.setProducerName(cinema.getProducer().getName());
         cinemaResponse.setCreateTime(cinema.getCreateTime());
         cinemaResponse.setUpdateTime(cinema.getUpdateTime());
