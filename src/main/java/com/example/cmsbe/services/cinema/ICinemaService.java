@@ -9,11 +9,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ICinemaService {
-    CinemaResponse createCinema(CinemaRequest cinemaRequest);
+    CinemaResponse createCinema(MultipartFile[] files, CinemaRequest cinemaRequest) throws IOException;
 
     CinemaResponse updateCinema(MultipartFile file, String cinemaRequest, Long id) throws IOException;
-
-    CinemaResponse insertCinema(MultipartFile file, String cinemaRequest) throws IOException;
 
     void deleteCinema(Long id);
 

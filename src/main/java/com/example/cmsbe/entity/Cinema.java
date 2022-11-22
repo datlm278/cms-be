@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,12 +28,6 @@ public class Cinema implements Serializable {
 
     @Column(name = "RELEASE_DATE")
     private Date releaseDate;
-
-    @Column(name = "POSTER")
-    private byte[] poster;
-
-    @Column(name = "POSTER_NAME")
-    private String posterName;
 
     @Column(name = "DIRECTOR")
     private String director;
@@ -56,4 +51,15 @@ public class Cinema implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "cinemas")
     private List<Showtime> showtimes;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "cms_cinema_images",
+            joinColumns = {
+                @JoinColumn(name = "product_id")
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "image_id")
+            }
+    )
+    private Set<Image> cinemaImage;
 }

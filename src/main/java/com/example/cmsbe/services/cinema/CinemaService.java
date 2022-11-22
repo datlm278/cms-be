@@ -6,6 +6,7 @@ import com.example.cmsbe.dto.request.CinemaRequest;
 import com.example.cmsbe.dto.response.CinemaResponse;
 import com.example.cmsbe.entity.Cinema;
 import com.example.cmsbe.entity.CinemaType;
+import com.example.cmsbe.entity.Image;
 import com.example.cmsbe.entity.Producer;
 import com.example.cmsbe.mapper.CinemaMapper;
 import com.example.cmsbe.repositories.CinemaRepository;
@@ -28,6 +29,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CinemaService implements ICinemaService {
@@ -55,8 +57,7 @@ public class CinemaService implements ICinemaService {
 
 
     @Override
-    public CinemaResponse createCinema(CinemaRequest cinemaRequest) {
-
+    public CinemaResponse createCinema(MultipartFile[] files, CinemaRequest cinemaRequest) throws IOException {
         CinemaType type = cinemaTypeRepository
                 .findById(cinemaRequest.getCinemaTypeId())
                 .orElseThrow(() -> new NotFoundException("cinema type isn't existed"));
@@ -65,6 +66,8 @@ public class CinemaService implements ICinemaService {
                 .orElseThrow(() -> new NotFoundException("producer isn't existed"));
 
         Cinema cinema = modelMapper.map(cinemaRequest, Cinema.class);
+        Set<Image> images = UploadFileUtils.upload(files);
+        cinema.setCinemaImage(images);
         cinema.setCreateTime(Timestamp.from(Instant.now()));
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
@@ -93,19 +96,6 @@ public class CinemaService implements ICinemaService {
         cinema.setUpdateTime(Timestamp.from(Instant.now()));
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
-        String fileName = UploadFileUtils.upload(context, file);
-        cinema.setPosterName(fileName);
-        cinema = cinemaRepository.save(cinema);
-        return CinemaMapper.toDto(cinema);
-    }
-
-    @Override
-    public CinemaResponse insertCinema(MultipartFile file, String request) throws IOException {
-        CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
-        Cinema cinema = modelMapper.map(cinemaRequest, Cinema.class);
-        cinema.setCreateTime(Timestamp.from(Instant.now()));
-        String fileName = UploadFileUtils.upload(context, file);
-        cinema.setPosterName(fileName);
         cinema = cinemaRepository.save(cinema);
         return CinemaMapper.toDto(cinema);
     }

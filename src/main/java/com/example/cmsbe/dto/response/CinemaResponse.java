@@ -13,7 +13,6 @@ public class CinemaResponse {
     private Date releaseDate;
     private String director;
     private Long status;
-    private String posterName;
     private Long cinemaTypeId;
     private String cinemaType;
     private Long producerId;
