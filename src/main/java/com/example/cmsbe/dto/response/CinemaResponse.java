@@ -1,10 +1,11 @@
 package com.example.cmsbe.dto.response;
 
+import com.example.cmsbe.entity.Image;
 import lombok.Data;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Data
 public class CinemaResponse {
@@ -19,4 +20,5 @@ public class CinemaResponse {
     private String producerName;
     private Timestamp createTime;
     private Timestamp updateTime;
+    private Set<Image> images;
 }

@@ -19,6 +19,7 @@ public class CinemaMapper {
         cinemaResponse.setProducerName(cinema.getProducer().getName());
         cinemaResponse.setCreateTime(cinema.getCreateTime());
         cinemaResponse.setUpdateTime(cinema.getUpdateTime());
+        cinemaResponse.setImages(cinema.getCinemaImage());
         return cinemaResponse;
     }
 }

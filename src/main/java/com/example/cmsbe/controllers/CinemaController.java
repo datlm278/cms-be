@@ -28,8 +28,8 @@ public class CinemaController {
     }
 
     @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CinemaResponse> updateCinema(@RequestParam("poster") MultipartFile file, @RequestParam("cinema") String cinemaRequest, @RequestParam Long id) throws IOException {
-        return ResponseEntity.ok().body(cinemaService.updateCinema(file, cinemaRequest, id));
+    public ResponseEntity<CinemaResponse> updateCinema(@RequestParam("poster") MultipartFile[] files, @RequestParam("cinema") String cinemaRequest, @RequestParam Long id) throws IOException {
+        return ResponseEntity.ok().body(cinemaService.updateCinema(files, cinemaRequest, id));
     }
 
     @PostMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -34,9 +34,6 @@ public class Producer implements Serializable {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "IMAGE")
-    private String image;
-
     @Column(name = "STATUS")
     private Long status;
 

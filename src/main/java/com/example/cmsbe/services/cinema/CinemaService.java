@@ -76,7 +76,7 @@ public class CinemaService implements ICinemaService {
     }
 
     @Override
-    public CinemaResponse updateCinema(MultipartFile file, String request, Long id) throws IOException {
+    public CinemaResponse updateCinema(MultipartFile[] files, String request, Long id) throws IOException {
         cinemaRepository.findById(id).orElseThrow(() -> new NotFoundException("cinema isn't existed"));
 
         CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
@@ -93,6 +93,8 @@ public class CinemaService implements ICinemaService {
         }
 
         Cinema cinema = modelMapper.map(cinemaRequest, Cinema.class);
+        Set<Image> images = UploadFileUtils.upload(files);
+        cinema.setCinemaImage(images);
         cinema.setUpdateTime(Timestamp.from(Instant.now()));
         cinema.setProducer(producer);
         cinema.setCinemaType(type);
