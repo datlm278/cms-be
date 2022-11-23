@@ -76,10 +76,8 @@ public class CinemaService implements ICinemaService {
     }
 
     @Override
-    public CinemaResponse updateCinema(MultipartFile[] files, String request, Long id) throws IOException {
+    public CinemaResponse updateCinema(MultipartFile[] files, CinemaRequest cinemaRequest, Long id) throws IOException {
         cinemaRepository.findById(id).orElseThrow(() -> new NotFoundException("cinema isn't existed"));
-
-        CinemaRequest cinemaRequest = new ObjectMapper().readValue(request, CinemaRequest.class);
 
         CinemaType type = cinemaTypeRepository
                 .findById(cinemaRequest.getCinemaTypeId())

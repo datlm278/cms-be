@@ -11,7 +11,7 @@ import java.util.List;
 public interface ICinemaService {
     CinemaResponse createCinema(MultipartFile[] files, CinemaRequest cinemaRequest) throws IOException;
 
-    CinemaResponse updateCinema(MultipartFile[] files, String cinemaRequest, Long id) throws IOException;
+    CinemaResponse updateCinema(MultipartFile[] files, CinemaRequest cinemaRequest, Long id) throws IOException;
 
     void deleteCinema(Long id);
 

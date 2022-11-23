@@ -22,13 +22,15 @@ public class CinemaController {
     private CinemaService cinemaService;
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CinemaResponse> create (@RequestPart("poster") MultipartFile[] files,
+    public ResponseEntity<CinemaResponse> create (@RequestPart("images") MultipartFile[] files,
                                                   @RequestPart("cinema") CinemaRequest cinema) throws IOException {
         return ResponseEntity.ok().body(cinemaService.createCinema(files, cinema));
     }
 
     @PostMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CinemaResponse> updateCinema(@RequestParam("poster") MultipartFile[] files, @RequestParam("cinema") String cinemaRequest, @RequestParam Long id) throws IOException {
+    public ResponseEntity<CinemaResponse> updateCinema(@RequestPart("images") MultipartFile[] files,
+                                                       @RequestPart("cinema") CinemaRequest cinemaRequest,
+                                                       @RequestParam Long id) throws IOException {
         return ResponseEntity.ok().body(cinemaService.updateCinema(files, cinemaRequest, id));
     }
 
