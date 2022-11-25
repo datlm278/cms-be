@@ -1,12 +1,12 @@
 package com.example.cmsbe.common.utils;
 
+import com.example.cmsbe.dto.FileDTO;
 import com.example.cmsbe.entity.Image;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import com.example.cmsbe.services.minio.MinIOService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
