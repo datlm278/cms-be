@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "cms_showtime")
+@Table(name = "CMS_SHOWTIME")
 public class Showtime implements Serializable {
 
     @Serial

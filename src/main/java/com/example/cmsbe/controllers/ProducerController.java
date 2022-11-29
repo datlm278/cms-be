@@ -29,7 +29,7 @@ public class ProducerController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ProducerResponse> createProducer(@RequestPart("producer") ProducerRequest producerRequest,
                                                            @RequestPart("image")MultipartFile file) {
-        LOGGER.info("[POST]{}/ create a new producer", CMSConstant.PREFIX_API_URL + "/producer/create");
+        LOGGER.info("[POST]{} create a new producer", CMSConstant.PREFIX_API_URL + "/producer/create");
         return ResponseEntity.ok().body(producerService.createProducer(producerRequest, file));
     }
 
@@ -50,13 +50,13 @@ public class ProducerController {
 
     @GetMapping(value = "/find-all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProducerResponse>> findAllProducer() {
-        LOGGER.info("[GET]{}/ get list existed producer", CMSConstant.PREFIX_API_URL + "producer/find-all");
+        LOGGER.info("[GET]{} get list existed producer", CMSConstant.PREFIX_API_URL + "/producer/find-all");
         return ResponseEntity.ok().body(producerService.findAllProducer());
     }
 
     @GetMapping(value = "/find-by-id", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProducerResponse> findProducerById(@RequestParam Long id) {
-        LOGGER.info("[GET]{}/ get a existed producer", CMSConstant.PREFIX_API_URL + "producer/find-by-id?id=" + id);
+        LOGGER.info("[GET]{} get a existed producer", CMSConstant.PREFIX_API_URL + "/producer/find-by-id?id=" + id);
         return ResponseEntity.ok().body(producerService.findProducerById(id));
     }
 }

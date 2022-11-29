@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(name = "cms_cinema")
+@Table(name = "CMS_CINEMA")
 public class Cinema implements Serializable {
 
     @Serial
@@ -53,12 +53,12 @@ public class Cinema implements Serializable {
     private List<Showtime> showtimes;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "cms_cinema_images",
+    @JoinTable(name = "CMS_CINEMA_IMAGES",
             joinColumns = {
-                @JoinColumn(name = "product_id")
+                @JoinColumn(name = "CINEMA_ID")
             },
             inverseJoinColumns = {
-                @JoinColumn(name = "image_id")
+                @JoinColumn(name = "IMAGE_ID")
             }
     )
     private Set<Image> cinemaImage;

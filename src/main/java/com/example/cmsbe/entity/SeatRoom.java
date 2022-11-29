@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
-@Table(name = "cms_seat_room")
+@Table(name = "CMS_SEAT_ROOM")
 public class SeatRoom implements Serializable {
 
     @Serial

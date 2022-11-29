@@ -17,7 +17,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "cms_producer")
+@Table(name = "CMS_PRODUCER")
 public class Producer implements Serializable {
 
     @Serial

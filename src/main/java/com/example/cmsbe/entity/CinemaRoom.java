@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "cms_cinema_room")
+@Table(name = "CMS_CINEMA_ROOM")
 public class CinemaRoom implements Serializable {
 
     @Serial

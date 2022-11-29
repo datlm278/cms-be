@@ -17,7 +17,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "cms_cinema_type")
+@Table(name = "CMS_CINEMA_TYPE")
 public class CinemaType implements Serializable {
 
     @Serial
