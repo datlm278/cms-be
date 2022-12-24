@@ -94,7 +94,7 @@ public class ShowtimeService implements IShowtimeService {
     @Override
     public List<ShowtimeResponse> findShowtimeByDate(String date) {
         List<Showtime> showtimes = showtimeRepository.findShowtimeByDate(date);
-        return showtimes.stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).toList();
+        return showtimes.stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ShowtimeService implements IShowtimeService {
     @Override
     public List<ShowtimeResponse> findAllShowtime() {
         List<ShowtimeResponse> responses = new ArrayList<>();
-        List<ShowtimeResponse> showtimes = showtimeRepository.findAll().stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).toList();
+        List<ShowtimeResponse> showtimes = showtimeRepository.findAll().stream().map(x -> modelMapper.map(x, ShowtimeResponse.class)).collect(Collectors.toList());
         for (ShowtimeResponse showtime : showtimes) {
             if (!showtime.getStatus().equals(CMSConstant.DELETE_STATUS)) {
                 responses.add(showtime);

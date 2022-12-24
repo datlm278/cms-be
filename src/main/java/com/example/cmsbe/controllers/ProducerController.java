@@ -20,10 +20,14 @@ import java.util.List;
 @RequestMapping(CMSConstant.PREFIX_API_URL + "/producer")
 public class ProducerController {
 
-    @Autowired
-    private ProducerService producerService;
+    private final ProducerService producerService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    public ProducerController(ProducerService producerService) {
+        this.producerService = producerService;
+    }
 
     @PostMapping(value = "/create",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})

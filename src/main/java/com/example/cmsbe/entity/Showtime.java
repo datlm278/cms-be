@@ -3,7 +3,6 @@ package com.example.cmsbe.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
@@ -15,7 +14,6 @@ import java.util.List;
 @Table(name = "CMS_SHOWTIME")
 public class Showtime implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 8081573080109375485L;
 
     @Id

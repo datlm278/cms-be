@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ProducerService implements IProducerService{
@@ -76,7 +77,7 @@ public class ProducerService implements IProducerService{
         List<ProducerResponse> producerResponses = new ArrayList<>();
         List<ProducerResponse> producers = producerRepository.findAll()
                 .stream()
-                .map(x -> modelMapper.map(x, ProducerResponse.class)).toList();
+                .map(x -> modelMapper.map(x, ProducerResponse.class)).collect(Collectors.toList());
         for (ProducerResponse producer : producers) {
             if (!Objects.equals(producer.getStatus(), CMSConstant.DELETE_STATUS)) {
                 producerResponses.add(producer);

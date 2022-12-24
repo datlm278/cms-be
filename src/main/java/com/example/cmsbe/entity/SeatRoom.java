@@ -3,7 +3,6 @@ package com.example.cmsbe.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -12,7 +11,6 @@ import java.sql.Timestamp;
 @Table(name = "CMS_SEAT_ROOM")
 public class SeatRoom implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 8081573080109375485L;
 
     @Id

@@ -2,9 +2,14 @@ package com.example.cmsbe.services.cinemaRoom;
 
 import com.example.cmsbe.common.constant.CMSConstant;
 import com.example.cmsbe.dto.request.CinemaRoomRequest;
+import com.example.cmsbe.dto.request.CinemaSeatRoomRequest;
 import com.example.cmsbe.dto.response.CinemaRoomResponse;
+import com.example.cmsbe.dto.response.CinemaSeatRoomResponse;
+import com.example.cmsbe.dto.response.SeatRoomResponse;
 import com.example.cmsbe.entity.CinemaRoom;
 import com.example.cmsbe.entity.SeatRoom;
+import com.example.cmsbe.mapper.CinemaRoomMapper;
+import com.example.cmsbe.mapper.SeatRoomMapper;
 import com.example.cmsbe.repositories.CinemaRoomRepository;
 import com.example.cmsbe.repositories.SeatRoomRepository;
 import org.modelmapper.ModelMapper;
@@ -24,22 +29,21 @@ import java.util.stream.Collectors;
 @Transactional
 public class CinemaRoomService implements ICinemaRoomService {
 
-    @Autowired
     private final CinemaRoomRepository cinemaRoomRepository;
+    private final SeatRoomRepository seatRoomRepository;
+    private final ModelMapper modelMapper;
+
 
     @Autowired
-    private final SeatRoomRepository seatRoomRepository;
-
-    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository, SeatRoomRepository seatRoomRepository) {
+    public CinemaRoomService(CinemaRoomRepository cinemaRoomRepository, SeatRoomRepository seatRoomRepository, ModelMapper modelMapper) {
         this.cinemaRoomRepository = cinemaRoomRepository;
         this.seatRoomRepository = seatRoomRepository;
+        this.modelMapper = modelMapper;
     }
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
-    public void createCinemaRoom(CinemaRoomRequest request) {
+    public void createCinemaRoomAndGenerateSeatRoom(CinemaRoomRequest request) {
         CinemaRoom cinemaRoom = modelMapper.map(request, CinemaRoom.class);
         cinemaRoom.setCreateTime(Timestamp.from(Instant.now()));
 
@@ -52,6 +56,25 @@ public class CinemaRoomService implements ICinemaRoomService {
         cinemaRoomRepository.save(cinemaRoom);
         seatRoomRepository.saveAllAndFlush(generateSeatRoom(cinemaRoom));
     }
+
+    @Override
+    public CinemaSeatRoomResponse createCinemaRoomAndSeatRoom(CinemaSeatRoomRequest request) {
+
+        SeatRoom seatRoom = SeatRoomMapper.toEntity(request);
+        CinemaRoom cinemaRoom = CinemaRoomMapper.toEntity(request);
+
+        seatRoom.setCinemaRoom(cinemaRoom);
+        seatRoom.setSeatPosition(String.format("%s-%d", request.getRowName(), request.getSeatNumber()));
+        seatRoom.setCreateTime(Timestamp.from(Instant.now()));
+        cinemaRoom.setCreateTime(Timestamp.from(Instant.now()));
+
+        CinemaSeatRoomResponse response = new CinemaSeatRoomResponse();
+        response.setSeatRoom(modelMapper.map(seatRoomRepository.save(seatRoom), SeatRoomResponse.class));
+        response.setCinemaRoom(modelMapper.map(cinemaRoomRepository.save(cinemaRoom), CinemaRoomResponse.class));
+
+        return response;
+    }
+
 
     @Override
     public void updateCinemaRoom(CinemaRoomRequest request, Long id) {
@@ -83,7 +106,9 @@ public class CinemaRoomService implements ICinemaRoomService {
     public List<CinemaRoomResponse> findAllCinemaRoom() {
 
         List<CinemaRoom> cinemaRooms = cinemaRoomRepository.findAll();
-        return cinemaRooms.stream().map(x -> modelMapper.map(x, CinemaRoomResponse.class)).collect(Collectors.toList());
+        return cinemaRooms.stream()
+                .map(x -> modelMapper.map(x, CinemaRoomResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -100,7 +125,7 @@ public class CinemaRoomService implements ICinemaRoomService {
                     SeatRoom seatRoom = new SeatRoom();
                     seatRoom.setSeatNumber((long) i);
                     seatRoom.setRowName(String.valueOf(j));
-                    seatRoom.setSeatPosition(j + "-" + i);
+//                    seatRoom.setSeatPosition(j + "-" + i);
                     seatRoom.setStatus(1L);
                     seatRoom.setCreateTime(Timestamp.from(Instant.now()));
                     seatRoom.setCinemaRoom(cinemaRoom);
